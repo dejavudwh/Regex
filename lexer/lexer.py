@@ -8,20 +8,20 @@ def scanner():
 
 
 class Lexer(object):
-    def __init__(self, input):
-        self.input = input
+    def __init__(self, pattern):
+        self.pattern = pattern
         self.pos = 0
         self.isescape = False
         self.current_token = None
 
     def advance(self):
         pos = self.pos
-        input = self.input
-        if pos > len(input) - 1:
+        pattern = self.pattern
+        if pos > len(pattern) - 1:
             return Token.EOS
 
         print('**debug ', pos)
-        text = input[pos]
+        text = pattern[pos]
         if text == '\\':
             self.isescape = not self.isescape
             self.pos = self.pos + 1
@@ -32,7 +32,7 @@ class Lexer(object):
         return self.current_token
 
     def handle_escape(self):
-        expr = self.input.lower()
+        expr = self.pattern.lower()
         pos = self.pos
         ev = {
             '\0' : '\\',
@@ -62,16 +62,10 @@ class Lexer(object):
 
     def handle_tip(self):
         self.pos = self.pos + 1
-        return self.input[self.pos] - '@'
+        return self.pattern[self.pos] - '@'
 
     def handle_oct(self):
         return 1
 
     def handle_hex(self):            
         return 1
-
-i = scanner()
-lexer = Lexer(i)
-for i in range(len(i)):
-    lexer.advance()
-    print(lexer.current_token)
