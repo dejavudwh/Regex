@@ -10,6 +10,7 @@ def scanner():
 class Lexer(object):
     def __init__(self, pattern):
         self.pattern = pattern
+        self.lexeme = ''
         self.pos = 0
         self.isescape = False
         self.current_token = None
@@ -20,12 +21,11 @@ class Lexer(object):
         if pos > len(pattern) - 1:
             return Token.EOS
 
-        print('**debug ', pos)
-        text = pattern[pos]
+        text = self.lexeme = pattern[pos]
         if text == '\\':
             self.isescape = not self.isescape
             self.pos = self.pos + 1
-            self.current_token =  self.handle_escape()
+            self.current_token = self.handle_escape()
         else:
             self.current_token = self.handle_semantic_l(text)
 
@@ -52,9 +52,10 @@ class Lexer(object):
             elif expr[pos] == 'X':
                 rval = self.handle_hex()   
             else:
-                rval = Token.L
-        self.pos = self.pos + 1        
-        return rval
+                rval = expr[pos]
+        self.pos = self.pos + 1   
+        self.lexeme = rval     
+        return Token.L
 
     def handle_semantic_l(self, text):
         self.pos = self.pos + 1
@@ -69,3 +70,6 @@ class Lexer(object):
 
     def handle_hex(self):            
         return 1
+
+    def match(self, token):
+        return self.current_token == token
