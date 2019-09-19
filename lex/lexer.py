@@ -1,5 +1,5 @@
-from token import Tokens
-from token import Token
+from lex.token import Tokens
+from lex.token import Token
 
 # 暂时的输入
 def scanner():

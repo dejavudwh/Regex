@@ -1,9 +1,5 @@
-class Text(object):
-    status_num = 0
-    def __init__(self):
-        self.f = None
+from nfa.constuction import dodash
 
-Text.status_num = 2
-print(Text.status_num)
-Text.status_num = 3
-print(Text.status_num)
+i = set()
+dodash(i)
+print('debug ** ', i)
