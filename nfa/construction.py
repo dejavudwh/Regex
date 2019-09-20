@@ -13,6 +13,16 @@ lexer = Lexer(s)
 lexer.advance()
 
 
+# 对 . a (单个字符) [] 进行匹配
+def term(pair_out):
+    if lexer.match(Token.L):
+        nfa_single_char(pair_out)
+    elif lexer.match(Token.ANY):
+        nfa_dot_char(pair_out)
+    elif lexer.match(Token.CCL_START):    
+        nfa_set_char(pair_out)
+
+
 # 匹配单个字符
 def nfa_single_char(pair_out):
     if not lexer.match(Token.L):
@@ -59,12 +69,35 @@ def nfa_set_char(pair_out):
 
 def dodash(input_set):
     first = ''
+    lexer.advance()
     while not lexer.match(Token.CCL_END):
         if not lexer.match(Token.DASH):
             first = lexer.lexeme
+            input_set.add(first)
         else:
             lexer.advance()
             for c in range(ord(first), ord(lexer.lexeme) + 1):
                 input_set.add(chr(c))
         lexer.advance()
+
+
+# * 闭包操作
+def nfa_star_closure(pair_out):
+    if not lexer.match(Token.CLOSURE):
+        return False
+    start = Nfa()
+    end = Nfa()
+    start.next_1 = pair_out.start_node
+    start.next_2 = end
+
+    pair_out.end_node.next_1 = pair_out.start_node
+    pair_out.end_node.next_2 = end
+
+    pair_out.start_node = start
+    pair_out.end_node = end
+
+    lexer.advance()
+    log_nfa(pair_out)
+    return True
+
 

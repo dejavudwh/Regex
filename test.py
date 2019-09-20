@@ -1,7 +1,6 @@
 from nfa.construction import (
-    nfa_dot_char,
-    nfa_single_char,
-    nfa_set_char,
+    term,
+    nfa_star_closure,
 )
 from nfa.nfa import debugNfa
 from nfa.nfa import NfaPair
@@ -14,9 +13,7 @@ nfa_pair = NfaPair()
 # node1.next_1 = Nfa() # 3
 # node1.next_1 = Nfa() # 4
 # node2.next_2 = Nfa() # 5
-nfa_dot_char(nfa_pair)
-nfa_single_char(nfa_pair)
-nfa_set_char(nfa_pair)
-
+term(nfa_pair)
+nfa_star_closure(nfa_pair)
 # debugNfa(nfa_pair.start_node)
 

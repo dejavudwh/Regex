@@ -6,6 +6,7 @@
 """
 from enum import Enum
 
+
 class Token(Enum):
     EOS = 0
     ANY = 1
@@ -16,7 +17,7 @@ class Token(Enum):
     CLOSE_CURLY = 6
     CLOSE_PAREN = 7
     CLOSURE = 8
-    DASH = 9 
+    DASH = 9
     END_OF_INPUT = 10
     L = 11
     OPEN_CURLY = 12
@@ -25,19 +26,20 @@ class Token(Enum):
     OR = 15
     PLUS_CLOSE = 16
 
+
 Tokens = {
-    '.' : Token.ANY,
-    '^' : Token.AT_BOL,
-    '$' : Token.AT_EOL,
-    ']' : Token.CCL_END,
-    '[' : Token.CCL_START,
-    '}' : Token.CLOSE_CURLY,
-    ')' : Token.CLOSE_PAREN,
-    '*' : Token.CLOSURE,
-    '-' : Token.DASH,
-    '{' : Token.OPEN_CURLY,
-    '(' : Token.OPEN_PAREN,
-    '?' : Token.OPTIONAL,
-    '|' : Token.OR,
-    '+' : Token.PLUS_CLOSE,
+    '.': Token.ANY,
+    '^': Token.AT_BOL,
+    '$': Token.AT_EOL,
+    ']': Token.CCL_END,
+    '[': Token.CCL_START,
+    '}': Token.CLOSE_CURLY,
+    ')': Token.CLOSE_PAREN,
+    '*': Token.CLOSURE,
+    '-': Token.DASH,
+    '{': Token.OPEN_CURLY,
+    '(': Token.OPEN_PAREN,
+    '?': Token.OPTIONAL,
+    '|': Token.OR,
+    '+': Token.PLUS_CLOSE,
 }
