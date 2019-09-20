@@ -101,3 +101,20 @@ def nfa_star_closure(pair_out):
     return True
 
 
+# + 正闭包
+def nfa_plus_closure(pair_out):
+    if not lexer.match(Token.PLUS_CLOSE):
+        return False
+    start = Nfa()
+    end = Nfa()
+    start.next_1 = pair_out.start_node
+
+    pair_out.end_node.next_1 = pair_out.start_node
+    pair_out.end_node.next_2 = end    
+
+    pair_out.start_node = start
+    pair_out.end_node = end
+
+    lexer.advance()
+    log_nfa(pair_out)
+    return True
