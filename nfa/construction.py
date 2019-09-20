@@ -88,6 +88,7 @@ def factor_conn(pair_out):
         factor(pair_out)
     
     while is_conn(lexer.current_token):
+        print(lexer.current_token)
         pair = NfaPair()
         factor(pair)
         pair_out.end_node.next_1 = pair.start_node
@@ -105,6 +106,7 @@ def is_conn(token):
         Token.PLUS_CLOSE,
         Token.CCL_END,
         Token.AT_BOL,
+        Token.OR,
     ]
     return token not in nc
 
@@ -171,6 +173,27 @@ def nfa_option_closure(pair_out):
 
     pair_out.start_node = start
     pair_out.end_node = end
-    
+
     lexer.advance()
+    return True
+
+
+# expr -> factor | expr
+def expr(pair_out):
+    factor_conn(pair_out)
+    pair = NfaPair()
+
+    while lexer.match(Token.OR):
+        lexer.advance()
+        factor_conn(pair)
+        start = Nfa()
+        start.next_1 = pair.start_node
+        start.next_2 = pair_out.start_node
+        pair_out.start_node = start
+
+        end = Nfa()
+        pair.end_node.next_1 = end
+        pair_out.end_node.next_2 = end
+        pair_out.end_node = end
+
     return True
