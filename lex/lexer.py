@@ -20,6 +20,7 @@ class Lexer(object):
         pos = self.pos
         pattern = self.pattern
         if pos > len(pattern) - 1:
+            self.current_token = Token.EOS
             return Token.EOS
 
         text = self.lexeme = pattern[pos]
@@ -74,4 +75,3 @@ class Lexer(object):
 
     def match(self, token):
         return self.current_token == token
-

@@ -106,7 +106,6 @@ def is_conn(token):
         Token.CCL_END,
         Token.AT_BOL,
     ]
-    print(lexer.current_token, token not in nc)
     return token not in nc
 
 
@@ -172,7 +171,6 @@ def nfa_option_closure(pair_out):
 
     pair_out.start_node = start
     pair_out.end_node = end
-    print(lexer.current_token, '****')
+    
     lexer.advance()
-    print(lexer.current_token, '****')
     return True

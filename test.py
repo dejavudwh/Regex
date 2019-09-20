@@ -6,6 +6,7 @@ from nfa.nfa import NfaPair
 from nfa.nfa import (
     log_nfa,
 )
+from lex.lexer import Lexer
 
 
 nfa_pair = NfaPair()
@@ -23,3 +24,10 @@ nfa_pair = NfaPair()
 # factor(nfa_pair)
 factor_conn(nfa_pair)
 log_nfa(nfa_pair.start_node)
+
+# lexer = Lexer('*asd[]')
+# print('len ', len('*asd[]'))
+# for i in range(10):
+#     lexer.advance()
+#     print(lexer.pos)
+#     print(lexer.current_token)
