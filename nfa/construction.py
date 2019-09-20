@@ -1,7 +1,10 @@
 from lex.token import Token
 from lex.lexer import scanner
 from lex.lexer import Lexer
-from nfa.nfa import Nfa
+from nfa.nfa import (
+    Nfa,
+    NfaPair,
+)
 from nfa.nfa import EPSILON
 from nfa.nfa import CCL
 from nfa.nfa import EMPTY
@@ -13,12 +16,13 @@ lexer.advance()
 
 
 # 对 . a (单个字符) [] 进行匹配
+# term -> a | [] | .
 def term(pair_out):
     if lexer.match(Token.L):
         nfa_single_char(pair_out)
     elif lexer.match(Token.ANY):
         nfa_dot_char(pair_out)
-    elif lexer.match(Token.CCL_START):    
+    elif lexer.match(Token.CCL_START):
         nfa_set_char(pair_out)
 
 
@@ -77,6 +81,47 @@ def dodash(input_set):
         lexer.advance()
 
 
+# factor connect
+# factor -> factor factor
+def factor_conn(pair_out):
+    if is_conn(lexer.current_token):
+        factor(pair_out)
+    
+    while is_conn(lexer.current_token):
+        pair = NfaPair()
+        factor(pair)
+        pair_out.end_node.next_1 = pair.start_node
+        pair_out.end_node = pair.end_node
+
+    return True
+
+
+def is_conn(token):
+    nc = [
+        Token.CLOSE_PAREN,
+        Token.AT_EOL,
+        Token.EOS,
+        Token.CLOSURE,
+        Token.PLUS_CLOSE,
+        Token.CCL_END,
+        Token.AT_BOL,
+    ]
+    print(lexer.current_token, token not in nc)
+    return token not in nc
+
+
+# factor * + ? closure
+# factor -> term* | term+ | term?
+def factor(pair_out):
+    term(pair_out)
+    if lexer.match(Token.CLOSURE):
+        nfa_star_closure(pair_out)
+    elif lexer.match(Token.PLUS_CLOSE):
+        nfa_plus_closure(pair_out)
+    elif lexer.match(Token.OPTIONAL):
+        nfa_option_closure(pair_out)
+
+
 # * 闭包操作
 def nfa_star_closure(pair_out):
     if not lexer.match(Token.CLOSURE):
@@ -105,10 +150,29 @@ def nfa_plus_closure(pair_out):
     start.next_1 = pair_out.start_node
 
     pair_out.end_node.next_1 = pair_out.start_node
-    pair_out.end_node.next_2 = end    
+    pair_out.end_node.next_2 = end
 
     pair_out.start_node = start
     pair_out.end_node = end
 
     lexer.advance()
+    return True
+
+
+# ?
+def nfa_option_closure(pair_out):
+    if not lexer.match(Token.OPTIONAL):
+        return False
+    start = Nfa()
+    end = Nfa()
+
+    start.next_1 = pair_out.start_node
+    start.next_2 = end
+    pair_out.end_node.next_1 = end
+
+    pair_out.start_node = start
+    pair_out.end_node = end
+    print(lexer.current_token, '****')
+    lexer.advance()
+    print(lexer.current_token, '****')
     return True

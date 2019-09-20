@@ -1,10 +1,11 @@
 from nfa.construction import (
-    term,
-    nfa_star_closure,
-    nfa_plus_closure,
+    factor,
+    factor_conn,
 )
 from nfa.nfa import NfaPair
-from nfa.nfa import log_nfa
+from nfa.nfa import (
+    log_nfa,
+)
 
 
 nfa_pair = NfaPair()
@@ -16,9 +17,9 @@ nfa_pair = NfaPair()
 # node2.next_2 = Nfa() # 5
 # term(nfa_pair)
 # nfa_star_closure(nfa_pair)
-term(nfa_pair)
-nfa_plus_closure(nfa_pair)
+# term(nfa_pair)
+# nfa_option_closure(nfa_pair)
 # debugNfa(nfa_pair.start_node)
+# factor(nfa_pair)
+factor_conn(nfa_pair)
 log_nfa(nfa_pair.start_node)
-# print(nfa_pair.start_node.next_1)
-

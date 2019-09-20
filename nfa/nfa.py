@@ -36,13 +36,18 @@ class NfaPair(object):
 
 
 def log_nfa(start_node):
-    if start_node is None or (start_node.next_1 is None and start_node.next_2 is None) or start_node.visited:
-        return
-    log('from: ', start_node.status_num, 'to: ',
-        start_node.next_1.status_num, 'in: ', start_node.edge)
+    log('NFA: ******** ')
+    if start_node.next_1 is not None:
+        log('from: ', start_node.status_num)
+        log('to: ', start_node.next_1.status_num)
+        log('in: ', start_node.edge)
+    else:
+        log('accept: ', start_node.status_num)    
     start_node.visited = True
     if hasattr(start_node, 'input_set'):
         log('input set: ', start_node.input_set)
 
-    log_nfa(start_node.next_1)
-    log_nfa(start_node.next_2)
+    if start_node.next_1 is not None and not start_node.next_1.visited:
+        log_nfa(start_node.next_1)
+    if start_node.next_2 is not None and not start_node.next_2.visited:
+        log_nfa(start_node.next_2)
