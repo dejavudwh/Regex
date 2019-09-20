@@ -9,6 +9,7 @@ ASCII_COUNT = 127
 
 class Nfa(object):
     STATUS_NUM = 0
+
     def __init__(self):
         self.edge = None
         self.next_1 = None
@@ -31,10 +32,12 @@ class NfaPair(object):
         self.start_node = None
         self.end_node = None
 
+
 def debugNfa(start_node):
+    print('debug *******************')
     if start_node is None:
         return None
-    print('status num: ', start_node.status_num)
+    print('status num: ', start_node.status_num, 'edge: ', start_node.edge)
     if start_node.next_1 is not None:
         print('next 1: ', start_node.next_1.status_num)
     if start_node.next_2 is not None:
@@ -42,14 +45,3 @@ def debugNfa(start_node):
 
     debugNfa(start_node.next_1)
     debugNfa(start_node.next_2)
-
-# start = Nfa() # 0
-# node1 = start.next_1 = Nfa() # 1
-# node2 = start.next_2 = Nfa() # 2
-# node1.next_1 = Nfa() # 3
-# node2.next_2 = Nfa() # 4
-
-# debugNfa(start)
-
-# start.set_input_set()
-# print(start.input_set)

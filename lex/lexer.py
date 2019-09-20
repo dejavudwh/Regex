@@ -1,6 +1,7 @@
 from lex.token import Tokens
 from lex.token import Token
 
+
 # 暂时的输入
 def scanner():
     i = input('Please enter a regular expression: ')
@@ -35,13 +36,13 @@ class Lexer(object):
         expr = self.pattern.lower()
         pos = self.pos
         ev = {
-            '\0' : '\\',
-            'b' : '\b',
-            'f' : '\f',
-            'n' : '\n',
-            's' : ' ',
-            't' : '\t',
-            'e' : '\033',
+            '\0': '\\',
+            'b': '\b',
+            'f': '\f',
+            'n': '\n',
+            's': ' ',
+            't': '\t',
+            'e': '\033',
         }
         rval = ev.get(expr[pos])
         if rval is None:
@@ -50,11 +51,11 @@ class Lexer(object):
             elif expr[pos] == 'O':
                 rval = self.handle_oct()
             elif expr[pos] == 'X':
-                rval = self.handle_hex()   
+                rval = self.handle_hex()
             else:
                 rval = expr[pos]
-        self.pos = self.pos + 1   
-        self.lexeme = rval     
+        self.pos = self.pos + 1
+        self.lexeme = rval
         return Token.L
 
     def handle_semantic_l(self, text):
@@ -68,8 +69,9 @@ class Lexer(object):
     def handle_oct(self):
         return 1
 
-    def handle_hex(self):            
+    def handle_hex(self):
         return 1
 
     def match(self, token):
         return self.current_token == token
+

@@ -1,25 +1,30 @@
-
 from lex.token import Token
 from lex.lexer import scanner
 from lex.lexer import Lexer
-from nfa import Nfa
-from nfa import EPSILON
-from nfa import CCL
-from nfa import EMPTY
+from nfa.nfa import Nfa
+from nfa.nfa import EPSILON
+from nfa.nfa import CCL
+from nfa.nfa import EMPTY
+from utils import log_nfa
+
 
 s = scanner()
 lexer = Lexer(s)
+lexer.advance()
+
 
 # 匹配单个字符
 def nfa_single_char(pair_out):
     if not lexer.match(Token.L):
         return False
 
-    start = pair_out.start_node = Nfa() 
-    pair_out = pair_out.start_node.next_1 = Nfa()   
+    start = pair_out.start_node = Nfa()
+    pair_out.end_node = pair_out.start_node.next_1 = Nfa()
     start.edge = lexer.lexeme
     lexer.advance()
+    log_nfa(pair_out)
     return True
+
 
 # . 匹配任意单个字符
 def nfa_dot_char(pair_out):
@@ -32,7 +37,7 @@ def nfa_dot_char(pair_out):
     start.set_input_set()
 
     lexer.advance()
-
+    log_nfa(pair_out)
     return False
 
 
@@ -44,10 +49,11 @@ def nfa_set_char(pair_out):
     start = pair_out.start_node = Nfa()
     pair_out.end_node = pair_out.start_node.next_1 = Nfa()
     start.edge = CCL
+    start.input_set = set()
     dodash(start.input_set)
 
     lexer.advance()
-    
+    log_nfa(pair_out)
     return True
 
 
@@ -60,8 +66,5 @@ def dodash(input_set):
             lexer.advance()
             for c in range(ord(first), ord(lexer.lexeme) + 1):
                 input_set.add(chr(c))
-        lexer.advance()        
+        lexer.advance()
 
-# i = set()
-# dodash(i)
-# print(i)
