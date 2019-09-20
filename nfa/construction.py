@@ -5,7 +5,6 @@ from nfa.nfa import Nfa
 from nfa.nfa import EPSILON
 from nfa.nfa import CCL
 from nfa.nfa import EMPTY
-from utils import log_nfa
 
 
 s = scanner()
@@ -32,7 +31,6 @@ def nfa_single_char(pair_out):
     pair_out.end_node = pair_out.start_node.next_1 = Nfa()
     start.edge = lexer.lexeme
     lexer.advance()
-    log_nfa(pair_out)
     return True
 
 
@@ -47,7 +45,6 @@ def nfa_dot_char(pair_out):
     start.set_input_set()
 
     lexer.advance()
-    log_nfa(pair_out)
     return False
 
 
@@ -63,7 +60,6 @@ def nfa_set_char(pair_out):
     dodash(start.input_set)
 
     lexer.advance()
-    log_nfa(pair_out)
     return True
 
 
@@ -97,7 +93,6 @@ def nfa_star_closure(pair_out):
     pair_out.end_node = end
 
     lexer.advance()
-    log_nfa(pair_out)
     return True
 
 
@@ -116,5 +111,4 @@ def nfa_plus_closure(pair_out):
     pair_out.end_node = end
 
     lexer.advance()
-    log_nfa(pair_out)
     return True

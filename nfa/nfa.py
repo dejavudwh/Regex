@@ -1,3 +1,5 @@
+from utils import log
+
 # 对应的节点有两个出去的ε边
 EPSILON = -1
 # 边对应的是字符集
@@ -33,15 +35,14 @@ class NfaPair(object):
         self.end_node = None
 
 
-def debugNfa(start_node):
-    print('debug *******************')
-    if start_node is None:
-        return None
-    print('status num: ', start_node.status_num, 'edge: ', start_node.edge)
-    if start_node.next_1 is not None:
-        print('next 1: ', start_node.next_1.status_num)
-    if start_node.next_2 is not None:
-        print('next 2: ', start_node.next_2.status_num) 
+def log_nfa(start_node):
+    if start_node is None or (start_node.next_1 is None and start_node.next_2 is None) or start_node.visited:
+        return
+    log('from: ', start_node.status_num, 'to: ',
+        start_node.next_1.status_num, 'in: ', start_node.edge)
+    start_node.visited = True
+    if hasattr(start_node, 'input_set'):
+        log('input set: ', start_node.input_set)
 
-    debugNfa(start_node.next_1)
-    debugNfa(start_node.next_2)
+    log_nfa(start_node.next_1)
+    log_nfa(start_node.next_2)
