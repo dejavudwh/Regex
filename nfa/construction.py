@@ -5,9 +5,12 @@ from nfa.nfa import (
     Nfa,
     NfaPair,
 )
-from nfa.nfa import EPSILON
-from nfa.nfa import CCL
-from nfa.nfa import EMPTY
+from nfa.nfa import (
+    EPSILON,
+    CCL,
+    EMPTY,
+    ASCII_COUNT,
+)
 
 
 s = scanner()
@@ -23,7 +26,7 @@ def term(pair_out):
     elif lexer.match(Token.ANY):
         nfa_dot_char(pair_out)
     elif lexer.match(Token.CCL_START):
-        nfa_set_char(pair_out)
+        nfa_set_nega_char(pair_out)
 
 
 # 匹配单个字符
@@ -67,9 +70,37 @@ def nfa_set_char(pair_out):
     return True
 
 
+def nfa_set_nega_char(pair_out):
+    if not lexer.match(Token.CCL_START):
+        return False
+    
+    neagtion = False
+    lexer.advance()
+    if lexer.match(Token.AT_BOL):
+        neagtion = True
+    
+    start = pair_out.start_node = Nfa()
+    start.next_1 = pair_out.end_node = Nfa()
+    start.edge = CCL
+    start.input_set = set()
+    dodash(start.input_set)
+
+    if neagtion:
+        char_set_inversion(start.input_set)
+
+    lexer.advance()
+    return True
+
+
+def char_set_inversion(input_set):
+    for i in range(ASCII_COUNT):
+        c = chr(i)
+        if c not in input_set:
+            input_set.add(c)
+
+
 def dodash(input_set):
     first = ''
-    lexer.advance()
     while not lexer.match(Token.CCL_END):
         if not lexer.match(Token.DASH):
             first = lexer.lexeme
@@ -178,7 +209,8 @@ def nfa_option_closure(pair_out):
     return True
 
 
-# expr -> factor | expr
+# expr -> factor_conn '|' expr | factor_conn
+# factor_conn -> factor . factor_conn
 def expr(pair_out):
     factor_conn(pair_out)
     pair = NfaPair()
