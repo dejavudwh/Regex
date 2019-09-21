@@ -82,13 +82,13 @@ def nfa_set_nega_char(pair_out):
     start = pair_out.start_node = Nfa()
     start.next_1 = pair_out.end_node = Nfa()
     start.edge = CCL
-    start.input_set = set()
     dodash(start.input_set)
 
     if neagtion:
         char_set_inversion(start.input_set)
 
     lexer.advance()
+    
     return True
 
 

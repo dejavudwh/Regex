@@ -13,10 +13,11 @@ class Nfa(object):
     STATUS_NUM = 0
 
     def __init__(self):
-        self.edge = None
+        self.edge = EPSILON
         self.next_1 = None
         self.next_2 = None
         self.visited = False
+        self.input_set = set()
         self.set_status_num()
 
     def set_status_num(self):
