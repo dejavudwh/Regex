@@ -1,4 +1,7 @@
-from nfa.nfa import EPSILON
+from nfa.nfa import (
+    EPSILON,
+    CCL,
+)
 
 
 def complier(start_node):
@@ -23,8 +26,17 @@ def closure(input_set):
                 nfa_stack.append(next1)
 
         if next2 is not None and nfa.edge == EPSILON:
-            if next2 not in input_set:4
+            if next2 not in input_set:
                 input_set.append(next2)
                 input_set.append(next2)
 
     return input_set
+
+
+def move(input_set, ch):
+    out_set = []
+    for nfa in input_set:
+        if nfa.edge == ch or (nfa.edge == CCL and ch in nfa.input_set):
+            out_set.append(nfa.next)
+    
+    return out_set
