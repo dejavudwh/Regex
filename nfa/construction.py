@@ -97,7 +97,6 @@ def nfa_set_nega_char(pair_out):
         char_set_inversion(start.input_set)
 
     lexer.advance()
-    
     return True
 
 
