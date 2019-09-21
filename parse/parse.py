@@ -4,14 +4,11 @@ from nfa.nfa import (
 )
 
 
-st = input('input string: ')
-
-
-def compiler(start_node):
+def compiler(input_string, start_node):
     current_nfa_set = [start_node]
     next_nfa_set = closure(current_nfa_set)
 
-    for i, ch in enumerate(st):
+    for i, ch in enumerate(input_string):
         current_nfa_set = move(next_nfa_set, ch)
         print('out move: ', current_nfa_set)
         next_nfa_set = closure(current_nfa_set)
@@ -20,8 +17,10 @@ def compiler(start_node):
         if next_nfa_set is None:
             return False
 
-        if has_accepted_state(next_nfa_set) and i == len(st) - 1:
+        if has_accepted_state(next_nfa_set) and i == len(input_string) - 1:
             return True
+
+    return False
 
 
 def closure(input_set):

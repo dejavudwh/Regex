@@ -1,9 +1,9 @@
 from lex.token import Token
-from lex.lexer import scanner
 from lex.lexer import Lexer
 from nfa.nfa import (
     Nfa,
     NfaPair,
+    log_nfa,
 )
 from nfa.nfa import (
     EPSILON,
@@ -13,9 +13,18 @@ from nfa.nfa import (
 )
 
 
-s = scanner()
-lexer = Lexer(s)
-lexer.advance()
+lexer = None
+
+
+def pattern(pattern_string):
+    global lexer
+    lexer = Lexer(pattern_string)
+    lexer.advance()
+    nfa_pair = NfaPair()
+    expr(nfa_pair)
+    log_nfa(nfa_pair.start_node)
+
+    return nfa_pair.start_node
 
 
 # 对 . a (单个字符) [] 进行匹配
