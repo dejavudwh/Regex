@@ -21,7 +21,7 @@ def pattern(pattern_string):
     lexer = Lexer(pattern_string)
     lexer.advance()
     nfa_pair = NfaPair()
-    expr(nfa_pair)
+    group(nfa_pair)
     log_nfa(nfa_pair.start_node)
 
     return nfa_pair.start_node
@@ -139,6 +139,7 @@ def factor_conn(pair_out):
 
 def is_conn(token):
     nc = [
+        Token.OPEN_PAREN,
         Token.CLOSE_PAREN,
         Token.AT_EOL,
         Token.EOS,
@@ -238,3 +239,33 @@ def expr(pair_out):
         pair_out.end_node = end
 
     return True
+
+
+def group(pair_out):
+    if lexer.match(Token.OPEN_PAREN):
+        lexer.advance()
+        expr(pair_out)
+        if lexer.match(Token.CLOSE_PAREN):
+            lexer.advance()
+    elif lexer.match(Token.EOS):
+        return False
+    else: 
+        expr(pair_out)
+
+    while True:
+        pair = NfaPair()
+        if lexer.match(Token.OPEN_PAREN):
+            lexer.advance()
+            expr(pair)
+            pair_out.end_node.next_1 = pair.start_node
+            pair_out.end_node = pair.end_node
+            if lexer.match(Token.CLOSE_PAREN):
+                lexer.advance()
+        elif lexer.match(Token.EOS):
+            return False
+        else: 
+            expr(pair)
+            pair_out.end_node.next_1 = pair.start_node
+            pair_out.end_node = pair.end_node
+
+    

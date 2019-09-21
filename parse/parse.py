@@ -2,9 +2,12 @@ from nfa.nfa import (
     EPSILON,
     CCL,
 )
+from nfa.construction import pattern
 
 
-def compiler(input_string, start_node):
+def match(input_string, pattern_string):
+    start_node = pattern(pattern_string)
+
     current_nfa_set = [start_node]
     next_nfa_set = closure(current_nfa_set)
 
@@ -56,7 +59,7 @@ def closure(input_set):
 def move(input_set, ch):
     out_set = []
     for nfa in input_set:
-        print('debug move 1****', ch, nfa.status_num, nfa.edge, nfa.input_set)
+        print('debug move no 1****', ch, nfa.status_num, nfa.edge, nfa.input_set)
         if nfa.edge == ch or (nfa.edge == CCL and ch in nfa.input_set):
             print('debug in move 1****', ch, nfa.status_num, nfa.edge, nfa.input_set)
             out_set.append(nfa.next_1)
@@ -68,4 +71,5 @@ def move(input_set, ch):
 def has_accepted_state(nfa_set):
     for nfa in nfa_set:
         if nfa.next_1 is None and nfa.next_2 is None:
+            print('fuck******* ', nfa.status_num)
             return True
