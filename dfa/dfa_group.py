@@ -2,7 +2,7 @@ class DfaGroup(object):
     GROUP_COUNT = 0
 
     def __init__(self):
-        self.group_num = self.set_count()
+        self.set_count()
         self.group = []
 
     def set_count(self):
@@ -16,4 +16,6 @@ class DfaGroup(object):
         self.group.append(element)
 
     def get(self, count):
+        if count > len(self.group) - 1:
+            return None
         return self.group[count]

@@ -1,12 +1,15 @@
 from dfa.construction import convert_to_dfa
 from nfa.construction import pattern
+from dfa.minimize_dfa import minimize_dfa
+
 
 
 def get_jump_table(pattern_string):
     nfa_start_node = pattern(pattern_string)
+    global jump_table
     jump_table = convert_to_dfa(nfa_start_node)
 
-    return jump_table
+    return minimize_dfa(jump_table)
 
 
 def dfa_match(input_string, pattern_string):
@@ -15,6 +18,7 @@ def dfa_match(input_string, pattern_string):
     cur_status = 0 
     for i, c in enumerate(input_string):
         print("now match ******** ", c)
+        print('*********', cur_status)
         jump_dict = jump_table[cur_status]
         if jump_dict:
             js = jump_dict.get(c)
