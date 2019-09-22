@@ -71,6 +71,6 @@ def move(input_set, ch):
 def has_accepted_state(nfa_set):
     for nfa in nfa_set:
         if nfa.next_1 is None and nfa.next_2 is None:
-            print('fuck******* ', nfa.status_num)
+            # print('fuck******* ', nfa.status_num)
             return True
 

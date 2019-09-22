@@ -41,10 +41,11 @@ def convert_to_dfa(nfa_start_node):
                 next_state = new_dfa.status_num
             jump_table[dfa.status_num][c] = next_state
             if new_dfa.accepted:
-                print('fuck accepted **** ', new_dfa.status_num)
+                # print('fuck accepted **** ', new_dfa.status_num)
                 jump_table[new_dfa.status_num]['accepted'] = True
         dfa_index = dfa_index + 1
     
+    log_dfa(dfa_list)
     return jump_table
     
 
@@ -56,4 +57,8 @@ def convert_completed(dfa_list, closure):
     return None
 
 
-# def log_dfa(start_node):
+def log_dfa(dfa_list):
+    for dfa in dfa_list:
+        print('dfa num: ', dfa.status_num)
+        for nfa in dfa.nfa_sets:
+            print('     nfa sets: ', nfa.status_num)

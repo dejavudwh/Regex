@@ -11,12 +11,12 @@ class Dfa(object):
 
     @classmethod
     def nfas_to_dfa(cls, nfas):
-        print('come in to**')
+        # print('come in to**')
         dfa = cls()
         for n in nfas:
             dfa.nfa_sets.append(n)
             if n.next_1 is None and n.next_2 is None:
-                print('is accepted ************* ', n.status_num)
+                # print('is accepted ************* ', n.status_num)
                 dfa.accepted = True
 
         dfa.status_num = Dfa.STATUS_NUM

@@ -22,7 +22,7 @@ def pattern(pattern_string):
     lexer.advance()
     nfa_pair = NfaPair()
     group(nfa_pair)
-    log_nfa(nfa_pair.start_node)
+    # log_nfa(nfa_pair.start_node)
 
     return nfa_pair.start_node
 
@@ -127,7 +127,6 @@ def factor_conn(pair_out):
         factor(pair_out)
     
     while is_conn(lexer.current_token):
-        print(lexer.current_token)
         pair = NfaPair()
         factor(pair)
         pair_out.end_node.next_1 = pair.start_node

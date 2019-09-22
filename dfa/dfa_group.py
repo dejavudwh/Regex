@@ -19,3 +19,6 @@ class DfaGroup(object):
         if count > len(self.group) - 1:
             return None
         return self.group[count]
+
+    def __len__(self):
+        return len(self.group)

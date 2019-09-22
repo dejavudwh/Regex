@@ -9,9 +9,7 @@ on_partition = True
 
 
 def minimize_dfa(jump_table):
-    group_a, group_na = partition_accepted()
-    group_list.append(group_a)
-    group_list.append(group_na)
+    partition_accepted()
 
     global on_partition
     while on_partition:
@@ -23,15 +21,24 @@ def minimize_dfa(jump_table):
 
 
 def partition_accepted():
-    group_na = DfaGroup()
-    group_a = DfaGroup()
+    group_na = []
+    group_a = []
     for dfa in dfa_list:
         if dfa.accepted:
-            group_a.add(dfa)
+            group_a.append(dfa)
         else:
-            group_na.add(dfa)
+            group_na.append(dfa)
+    
+    if len(group_a) > 0:
+        append_group(group_a)
+    if len(group_na) > 0:
+        append_group(group_na)
 
-    return group_a, group_na
+
+def append_group(group_a):
+    group = DfaGroup()
+    group.group = group_a
+    group_list.append(group)
 
 
 def partition_on_num(jump_table):
@@ -91,7 +98,7 @@ def dfa_in_group(status_num):
 
 
 def create_mindfa_table(jump_table):
-    trans_table = list_dict(len(group_list))
+    trans_table = list_dict(ASCII_COUNT)
     for dfa in dfa_list:
         from_dfa = dfa.status_num
         for i in range(ASCII_COUNT):
@@ -100,15 +107,24 @@ def create_mindfa_table(jump_table):
             if to_dfa:
                 from_group = dfa_in_group(from_dfa)
                 to_group = dfa_in_group(to_dfa)
-                print_group(group_list)
-                print('*******', from_dfa)
-                print('******* ', from_group.group_num)
                 trans_table[from_group.group_num][ch] = to_group.group_num
+                if dfa_list[from_dfa].accepted:
+                    trans_table[from_group.group_num]['accepted'] = True
+        print(trans_table)
 
+    log_group(group_list)
+    # print(trans_table)
     return trans_table
 
 
 def print_group(group_list):
     for group in group_list:
         for dfa in group.group:
-            print('****** ', group.group_num, dfa.status_num)
+            print('******group ', group.group_num, dfa.status_num)
+
+
+def log_group(group_list):
+    for group in group_list:
+        print('group num: ', group.group_num)
+        for g in group.group:
+            print('    dfa sets: ', g.status_num)
