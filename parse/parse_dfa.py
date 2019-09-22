@@ -2,9 +2,15 @@ from dfa.construction import convert_to_dfa
 from nfa.construction import pattern
 
 
-def dfa_match(input_string, pattern_string):
+def get_jump_table(pattern_string):
     nfa_start_node = pattern(pattern_string)
     jump_table = convert_to_dfa(nfa_start_node)
+
+    return jump_table
+
+
+def dfa_match(input_string, pattern_string):
+    jump_table = get_jump_table(pattern_string)
 
     cur_status = 0 
     for i, c in enumerate(input_string):

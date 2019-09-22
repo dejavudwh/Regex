@@ -10,9 +10,11 @@ from nfa.nfa import ASCII_COUNT
 from utils import list_dict
 
 
+dfa_list = []
+
+
 def convert_to_dfa(nfa_start_node):
     jump_table = list_dict(MAX_DFA_STATUS_NUM)
-    dfa_list = []
     ns = [nfa_start_node]
     n_closure = closure(ns)
     dfa = Dfa.nfas_to_dfa(n_closure)
