@@ -1,18 +1,24 @@
 from dfa.construction import dfa_list
 from dfa.dfa_group import DfaGroup
-from parse_dfa import get_jump_table
+from parse.parse_dfa import get_jump_table
 from nfa.nfa import ASCII_COUNT
 
 
 group_list = []
 jump_table = get_jump_table()
+on_partition = True
 
 
 def minimize_dfa():
     group_a, group_na = partition_accepted()
     group_list.append(group_a)
     group_list.append(group_na)
-    pass
+    
+    while on_partition:
+        global on_partition
+        on_partition = False
+        partition_on_num()
+        partition_on_char()
 
 
 def partition_accepted():
@@ -28,7 +34,20 @@ def partition_accepted():
 
 
 def partition_on_num():
-    pass
+    for group in group_list:
+        dfa_index = 1
+        first_dfa = group.get(0)
+        next_dfa = group.get(dfa_index)
+
+        while next_dfa is not None:
+            for i in range(10):
+                ch = str(i)
+                if partition(group, first_dfa, next_dfa, ch):
+                    global on_partition
+                    on_partition = True
+                    break
+            dfa_index = dfa_index + 1
+            next_dfa = group.get(dfa_index)
 
 
 def partition_on_char():
@@ -41,6 +60,11 @@ def partition_on_char():
             for i in range(ASCII_COUNT):
                 ch = chr(i)
                 if not str.isdigit(ch) and partition(group, first_dfa, next_dfa, ch):
+                    global on_partition
+                    on_partition = True
+                    break
+            dfa_index = dfa_index + 1
+            next_dfa = group.get(dfa_index)
 
 
 def partition(group, first, next, ch):
