@@ -38,6 +38,9 @@ def convert_to_dfa(nfa_start_node):
                     dfa_list.append(new_dfa)
                 next_state = new_dfa.status_num
             jump_table[dfa.status_num][c] = next_state
+            if new_dfa.accepted:
+                print('fuck accepted **** ', new_dfa.status_num)
+                jump_table[new_dfa.status_num]['accepted'] = True
         dfa_index = dfa_index + 1
     
     return jump_table

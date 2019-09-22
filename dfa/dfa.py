@@ -15,7 +15,6 @@ class Dfa(object):
         dfa = cls()
         for n in nfas:
             dfa.nfa_sets.append(n)
-            print('nfa status num **********', n.status_num)
             if n.next_1 is None and n.next_2 is None:
                 print('is accepted ************* ', n.status_num)
                 dfa.accepted = True
