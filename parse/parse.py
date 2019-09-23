@@ -2,11 +2,10 @@ from nfa.nfa import (
     EPSILON,
     CCL,
 )
-from nfa.construction import pattern
 
 
-def match(input_string, pattern_string):
-    start_node = pattern(pattern_string)
+def match(input_string, nfa_machine):
+    start_node = nfa_machine
 
     current_nfa_set = [start_node]
     next_nfa_set = closure(current_nfa_set)

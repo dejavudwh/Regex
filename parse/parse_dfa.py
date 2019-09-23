@@ -14,9 +14,7 @@ def get_jump_table(pattern_string, minimize=True):
     return jump_table
 
 
-def dfa_match(input_string, pattern_string, minimize=True):
-    jump_table = get_jump_table(pattern_string, minimize)
-
+def dfa_match(input_string, jump_table, minimize=True):
     if minimize:
         cur_status = dfa_in_group(0).group_num
     else:
