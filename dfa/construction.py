@@ -45,7 +45,7 @@ def convert_to_dfa(nfa_start_node):
                 jump_table[new_dfa.status_num]['accepted'] = True
         dfa_index = dfa_index + 1
     
-    log_dfa(dfa_list)
+    # log_dfa(dfa_list)
     return jump_table
     
 

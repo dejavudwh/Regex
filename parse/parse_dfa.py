@@ -4,20 +4,23 @@ from dfa.minimize_dfa import minimize_dfa
 from dfa.minimize_dfa import dfa_in_group
 
 
-def get_jump_table(pattern_string):
+def get_jump_table(pattern_string, minimize=True):
     nfa_start_node = pattern(pattern_string)
     global jump_table
     jump_table = convert_to_dfa(nfa_start_node)
 
-    return minimize_dfa(jump_table)
-    # return jump_table
+    if minimize:
+        return minimize_dfa(jump_table)
+    return jump_table
 
 
-def dfa_match(input_string, pattern_string):
-    jump_table = get_jump_table(pattern_string)
+def dfa_match(input_string, pattern_string, minimize=True):
+    jump_table = get_jump_table(pattern_string, minimize)
 
-    # cur_status = 0 
-    cur_status = dfa_in_group(0).group_num
+    if minimize:
+        cur_status = dfa_in_group(0).group_num
+    else:
+        cur_status = 0 
     for i, c in enumerate(input_string):
         jump_dict = jump_table[cur_status]
         if jump_dict:
@@ -30,6 +33,6 @@ def dfa_match(input_string, pattern_string):
             # print('match **************** ', i, cur_status, jump_dict, jump_table)
             return True
 
-    print('**************** out')
-    print('****** ', cur_status)
+    # print('**************** out')
+    # print('****** ', cur_status)
     return jump_table[cur_status].get('accepted') is not None
