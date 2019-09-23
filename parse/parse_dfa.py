@@ -10,6 +10,7 @@ def get_jump_table(pattern_string):
     jump_table = convert_to_dfa(nfa_start_node)
 
     return minimize_dfa(jump_table)
+    # return jump_table
 
 
 def dfa_match(input_string, pattern_string):
@@ -30,4 +31,5 @@ def dfa_match(input_string, pattern_string):
             return True
 
     print('**************** out')
+    print('****** ', cur_status)
     return jump_table[cur_status].get('accepted') is not None

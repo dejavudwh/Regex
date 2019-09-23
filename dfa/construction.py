@@ -59,6 +59,6 @@ def convert_completed(dfa_list, closure):
 
 def log_dfa(dfa_list):
     for dfa in dfa_list:
-        print('dfa num: ', dfa.status_num)
+        print('dfa num: ', dfa.status_num, dfa.accepted)
         for nfa in dfa.nfa_sets:
             print('     nfa sets: ', nfa.status_num)
