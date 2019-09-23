@@ -22,17 +22,13 @@ def convert_to_dfa(nfa_start_node):
 
     dfa_index = 0
     while dfa_index < len(dfa_list):
-        # print('dfalist: index, ********', dfa_list, dfa_index)
         dfa = dfa_list[dfa_index]
         for i in range(ASCII_COUNT):
             c = chr(i)
             nfa_move = move(dfa.nfa_sets, c)
-            # print('nfa move: ********', nfa_move)
             if nfa_move is not None:
                 nfa_closure = closure(nfa_move)
-                # print('nfa closure: ********', nfa_closure)
                 if nfa_closure is None:
-                    # print('fffua')
                     continue
                 new_dfa = convert_completed(dfa_list, nfa_closure)
                 if new_dfa is None:
@@ -41,11 +37,9 @@ def convert_to_dfa(nfa_start_node):
                 next_state = new_dfa.status_num
             jump_table[dfa.status_num][c] = next_state
             if new_dfa.accepted:
-                # print('fuck accepted **** ', new_dfa.status_num)
                 jump_table[new_dfa.status_num]['accepted'] = True
         dfa_index = dfa_index + 1
     
-    # log_dfa(dfa_list)
     return jump_table
     
 

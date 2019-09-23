@@ -30,9 +30,6 @@ def dfa_match(input_string, pattern_string, minimize=True):
             else:
                 cur_status = js
         if i == len(input_string) - 1 and jump_dict.get('accepted'):
-            # print('match **************** ', i, cur_status, jump_dict, jump_table)
             return True
 
-    # print('**************** out')
-    # print('****** ', cur_status)
     return jump_table[cur_status].get('accepted') is not None

@@ -101,9 +101,6 @@ def create_mindfa_table(jump_table):
     trans_table = list_dict(ASCII_COUNT)
     for dfa in dfa_list:
         from_dfa = dfa.status_num
-        # print('******** num ', from_dfa)
-        # if (from_dfa == 15):
-        # print('****** in ', dfa_in_group(15).group_num)
         for i in range(ASCII_COUNT):
             ch = chr(i)
             to_dfa = jump_table[from_dfa].get(ch)
@@ -111,17 +108,10 @@ def create_mindfa_table(jump_table):
                 from_group = dfa_in_group(from_dfa)
                 to_group = dfa_in_group(to_dfa)
                 trans_table[from_group.group_num][ch] = to_group.group_num
-                # if (from_dfa == 15):
-                #     print('come to dfa ', from_group.group_num)
         if dfa.accepted:
-            # print('******** ac', from_dfa, from_group.group_num)
-            # print_group(from_group)
             from_group = dfa_in_group(from_dfa)
             trans_table[from_group.group_num]['accepted'] = True
-        # print(trans_table)
 
-    # log_group(group_list)
-    # print(trans_table)
     return trans_table
 
 
