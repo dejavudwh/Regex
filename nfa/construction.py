@@ -27,8 +27,16 @@ def pattern(pattern_string):
     return nfa_pair.start_node
 
 
+"""
+group ::= ("(" expr ")")*
+expr ::= factor_conn ("|" factor_conn)*
+factor_conn ::= factor | factor factor*
+factor ::= (term | term ("*" | "+" | "?"))*
+term ::= char | "[" char "-" char "]" | .
+"""
+
+
 # 对 . a (单个字符) [] 进行匹配
-# term -> a | [] | .
 def term(pair_out):
     if lexer.match(Token.L):
         nfa_single_char(pair_out)
@@ -121,7 +129,6 @@ def dodash(input_set):
 
 
 # factor connect
-# factor -> factor factor
 def factor_conn(pair_out):
     if is_conn(lexer.current_token):
         factor(pair_out)
@@ -151,7 +158,6 @@ def is_conn(token):
 
 
 # factor * + ? closure
-# factor -> term* | term+ | term?
 def factor(pair_out):
     term(pair_out)
     if lexer.match(Token.CLOSURE):
@@ -217,8 +223,6 @@ def nfa_option_closure(pair_out):
     return True
 
 
-# expr -> factor_conn '|' expr | factor_conn
-# factor_conn -> factor . factor_conn
 def expr(pair_out):
     factor_conn(pair_out)
     pair = NfaPair()
