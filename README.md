@@ -40,6 +40,16 @@ Regex build parameter
 
 **see sample.py for details**.
 
+# BNF
+
+```python
+group ::= ("(" expr ")")*
+expr ::= factor_conn ("|" factor_conn)*
+factor_conn ::= factor | factor factor*
+factor ::= (term | term ("*" | "+" | "?"))*
+term ::= char | "[" char "-" char "]" | .
+```
+
 # Implementation of the
 
 > Implemented all the basic syntax
