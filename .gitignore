@@ -1,2 +1,13 @@
 __pycache__/
-test.py
+.gitignore
+.idea
+*#
+*.iml
+*.ipr
+*.iws
+*.jar
+*.sw?
+*~
+.#*
+.*.md.html
+
