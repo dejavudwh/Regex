@@ -109,10 +109,13 @@ def nfa_set_nega_char(pair_out):
 
 
 def char_set_inversion(input_set):
+    origin = set(input_set)
     for i in range(ASCII_COUNT):
         c = chr(i)
         if c not in input_set:
             input_set.add(c)
+    for c in origin:
+        input_set.remove(c)
 
 
 def dodash(input_set):
