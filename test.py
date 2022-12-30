@@ -16,6 +16,7 @@ testLists.append(RegexMaterial("THISISREGEXTEST", "([A-Z]*|[0-9]+)", True))
 testLists.append(RegexMaterial("abbbbb", "[^c]+", True))
 testLists.append(RegexMaterial("ccccc", "[^c]+", False))
 testLists.append(RegexMaterial("123", "[1-3]+", True))
+testLists.append(RegexMaterial("\\^abcde", "[^0-9]+", True))
 
 class TestRegex(unittest.TestCase):
     def test(self):
