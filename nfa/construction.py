@@ -95,6 +95,7 @@ def nfa_set_nega_char(pair_out):
     lexer.advance()
     if lexer.match(Token.AT_BOL):
         neagtion = True
+        lexer.advance()
     
     start = pair_out.start_node = Nfa()
     start.next_1 = pair_out.end_node = Nfa()
