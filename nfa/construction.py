@@ -17,6 +17,7 @@ lexer = None
 
 
 def pattern(pattern_string):
+    Nfa.STATUS_NUM = 0
     global lexer
     lexer = Lexer(pattern_string)
     lexer.advance()
@@ -90,12 +91,13 @@ def nfa_set_char(pair_out):
 def nfa_set_nega_char(pair_out):
     if not lexer.match(Token.CCL_START):
         return False
-    
+
     neagtion = False
     lexer.advance()
     if lexer.match(Token.AT_BOL):
         neagtion = True
-    
+        lexer.advance()
+
     start = pair_out.start_node = Nfa()
     start.next_1 = pair_out.end_node = Nfa()
     start.edge = CCL
@@ -135,7 +137,7 @@ def dodash(input_set):
 def factor_conn(pair_out):
     if is_conn(lexer.current_token):
         factor(pair_out)
-    
+
     while is_conn(lexer.current_token):
         pair = NfaPair()
         factor(pair)
@@ -254,7 +256,7 @@ def group(pair_out):
             lexer.advance()
     elif lexer.match(Token.EOS):
         return False
-    else: 
+    else:
         expr(pair_out)
 
     while True:
@@ -268,10 +270,7 @@ def group(pair_out):
                 lexer.advance()
         elif lexer.match(Token.EOS):
             return False
-        else: 
+        else:
             expr(pair)
             pair_out.end_node.next_1 = pair.start_node
             pair_out.end_node = pair.end_node
-
-    
-    

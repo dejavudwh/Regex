@@ -1,6 +1,12 @@
 import time
 
 
+class G:
+    dfa_list = []
+    group_list = []
+    on_partition = True
+
+
 def log(*args, **kwargs):
     format = '%H:%M:%S'
     value = time.localtime(int(time.time()))

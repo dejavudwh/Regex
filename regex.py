@@ -1,5 +1,5 @@
 from parse.parse import match
-from parse.parse_dfa import dfa_match 
+from parse.parse_dfa import dfa_match
 from nfa.construction import pattern
 from parse.parse_dfa import get_jump_table
 
@@ -19,7 +19,7 @@ class Regex(object):
             return dfa_match(input_string, jump_table, self.minimize)
         else:
             nfa_machine = pattern(pattern_string)
-            return match(input_string, nfa_machine)            
+            return match(input_string, nfa_machine)
 
     def replace():
         pass
