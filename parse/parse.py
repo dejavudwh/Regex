@@ -44,7 +44,7 @@ def closure(input_set):
             if next2 not in input_set:
                 input_set.append(next2)
                 nfa_stack.append(next2)
-        
+
     return input_set
 
 
@@ -61,4 +61,3 @@ def has_accepted_state(nfa_set):
     for nfa in nfa_set:
         if nfa.next_1 is None and nfa.next_2 is None:
             return True
-

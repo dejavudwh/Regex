@@ -19,7 +19,7 @@ st = 'AS342abcdefg234aaaaabccccczczxczcasdzxc'
 pattern = '([A-Z]+[0-9]*abcdefg)([0-9]*)(\*?|a+)(zx|bc*)([a-z]+|[0-9]*)(asd|fgh)(zxc)'
 
 
-# NFA 
+# NFA
 regex = Regex(st, pattern)
 result = regex.match()
 log(result)
